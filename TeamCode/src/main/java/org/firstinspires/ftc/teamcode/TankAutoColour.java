@@ -32,6 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -74,6 +76,7 @@ public class TankAutoColour extends LinearOpMode {
     ColorSensor sensorRGB;
     DeviceInterfaceModule cdim;
     static final int LED_CHANNEL = 5;
+
 
     public int distance(double dis)
     {
@@ -156,6 +159,8 @@ public class TankAutoColour extends LinearOpMode {
         telemetry.addData("Alliance Colour", "Red or Blue");
         telemetry.update();
 
+        float hsvValues[] = {0F,0F,0F};
+
         //configurgation for RBB Sensor
         cdim = hardwareMap.deviceInterfaceModule.get("dim");
 
@@ -200,11 +205,16 @@ public class TankAutoColour extends LinearOpMode {
             //sleep(2000);
             //drive(2, 1, distance(35));
 
-
+        Color.RGBToHSV((sensorRGB.red() * 255) / 800, (sensorRGB.green() * 255) / 800, (sensorRGB.blue() * 255) / 800, hsvValues);
             // Step 4:  Stop and close the claw
 
 
             telemetry.addData("Path", "Complete");
+        telemetry.addData("Clear", sensorRGB.alpha());
+        telemetry.addData("Red  ", sensorRGB.red());
+        telemetry.addData("Green", sensorRGB.green());
+        telemetry.addData("Blue ", sensorRGB.blue());
+        telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
             //sleep(1000);
     }
